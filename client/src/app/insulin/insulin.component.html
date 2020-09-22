@@ -1,0 +1,120 @@
+<!-- Insulin form -->
+<section class="">
+  <div class="container-fluid">
+    <div class="row shadow-none bg-white rounded formBodyOuter">
+      <div class="form-body-inside">
+        <div class="signup-content text-center">
+          <div class="w-100 ">
+            <h2 class="form-title">{{ 'insulin.maintitle' | translate }}</h2>
+            <form class="register-form" id="register-form" (ngSubmit)="onSubmit()" [formGroup]="insulinForm"
+              [mustMatch]="['pass', 'repass']" novalidate>
+              <div class="form-group row">
+                <div class="col-md-12">
+                  <select [ngClass]="{'selectColor': insulinFormCtrl.dosageType.value ==''}" class="form-control"
+                    name="insulin_dosage" id="insulin_dosage" placeholder="Insulin dosage" formControlName="dosageType"
+                    name="car">
+                    <option value="" selected="true" class="please-select">{{ 'insulin.pleaseselect' | translate }}</option>
+                    <option value="1">
+                      {{ 'insulin.beforemeal' | translate }}
+                    </option>
+                    <option value="2">
+                      {{ 'insulin.afteremeal' | translate }}
+                    </option>
+                    <option value="3">
+                      {{ 'insulin.othertime' | translate }}
+                    </option>
+                  </select>
+                </div>
+                <div *ngIf="isSubmitted && insulinFormCtrl.dosageType.invalid" class="invalid-feedback">
+                  <div *ngIf="insulinFormCtrl.dosageType.errors.required">
+                    Required field
+                  </div>
+                </div>
+
+              </div>
+
+              <div class="form-group row ">
+                <div class="col-4 mt-3">
+                  <label for="time"><i class="zmdi zmdi-time"></i> {{ 'insulin.dosagetime' | translate }}</label>
+                </div>
+
+                <div class="col-8">
+                  <ngb-timepicker formControlName='dosageTime' name="dosage_time_after_meal">
+                  </ngb-timepicker>
+                </div>
+
+              </div>
+              <div class=" form-group row">
+                <div class="col-9 mt-3">
+                  <input name="insulin" type="number" placeholder="{{ 'insulin.insulindosage' | translate }}" formControlName="dosageUnits" class=" insulin-units"/>
+                  <div *ngIf="isSubmitted && insulinFormCtrl.dosageUnits.invalid" class="invalid-feedback">
+                    <div *ngIf="insulinFormCtrl.dosageUnits.errors.required">
+                      Required field
+                    </div>
+                  </div>
+                </div>
+                <div class="col-3 mt-3">
+                  <label><i></i> {{ 'insulin.units' | translate }}</label>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <div class="col-md-12 mt-3">
+                  <div class="row">
+                    <label for="insulinType"><i class="zmdi zmdi-assignment"></i></label>
+                    <input formControlName="insulinType" type="text" name="insulinType" id="insulinType"
+                      placeholder="{{ 'insulin.typeofinsulin' | translate }}" />
+                  </div>
+                </div>
+                <div *ngIf="isSubmitted && insulinFormCtrl.insulinType.invalid" class="invalid-feedback">
+                  <div *ngIf="insulinFormCtrl.insulinType.errors.required">
+                    Required field
+                  </div>
+                </div>
+              </div>
+            
+
+              <div class="form-group form-button">
+                <input type="submit" name="signup" id="signup" class="btn btn-form btn-block" value="{{ 'insulin.submit' | translate }}"
+                  *ngIf="!formProcess" />
+                <span class="btn btn-block" *ngIf="formProcess">Please wait...</span>
+              </div>
+              <div class="form-group form-button">
+                <input type="button" class="btn btn-form btn-block" value="{{ 'insulin.generatechart' | translate }}" *ngIf="!formProcess"
+                  data-toggle="modal" data-target="#exampleModalScrollable"  (click)="openModal()" />
+                <span class="btn btn-block" *ngIf="formProcess">Please wait...</span>
+              </div>
+              <div class="form-group error {{errMsg.class}}">
+                <span>{{errMsg.msg}}</span>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModalScrollable" tabindex="-1" role="dialog"
+          aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <p class="modal-title" id="exampleModalScrollableTitle">{{(this.isLanguageEnglish)? 'Insulin Dosage Chart': 'Insulindosdiagram'}}</p>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body" id="modal-body">
+                <div class="container">
+                  <app-insulin-modal *ngIf="displayModal"></app-insulin-modal>
+                  <div class="row justify-content-center my-5" *ngIf="!displayModal">
+                    <i class="fas fa-spinner fa-2x fa-spin" style="color: brown;"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      
+
+    </div>
+  </div>
+</section>

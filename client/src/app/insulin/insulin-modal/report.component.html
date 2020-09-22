@@ -1,0 +1,87 @@
+<div class="container-fluid"  style="overflow-x: hidden;">
+  <div class="row">
+        <div class="col-md-3"></div>
+        <div class="col-md-3">
+            <div class="input-group input-group-sm">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">{{'report.startdate' | translate}}</span>
+                </div>
+                <input id="startDate" type="date" placeholder="yyyy-mm-dd" class="form-control" [(ngModel)]="startDate" (change)="onDateChange($event.target.value, 'START')" />
+            </div>
+        </div>
+        <div class="col-md-offset-1 col-md-3">
+            <div class="input-group input-group-sm">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">{{'report.enddate' | translate}}</span>
+                </div>
+                <input id="endDate" type="date" placeholder="yyyy-mm-dd" class="form-control" [(ngModel)]="endDate" (change)="onDateChange($event.target.value, 'END')" />
+            </div>
+        </div>
+        <div class="col-md-3"></div>
+        <div class="col-md-12" style="padding-top: 10px; padding-bottom: 10px;">
+    </div>
+  </div>
+
+  <div class="graph-wrapper">
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="text-center mb-3" [hidden]="!showInsulin">
+          <dl><b>{{(this.islanguageEnglish)? 'Insulin Dosage Chart': 'Insulindosdiagram'}}</b></dl>
+        </div>
+        <div class="legend-styles" [hidden]="!showInsulin">
+          <div class="text-center">
+            <div class="custom-control custom-checkbox">
+              <input
+                type="checkbox"
+                class="insulincustom before-meal custom-control-input"
+                id="beforemeal"
+                [checked]="true"
+                (click)="DosageTypeChange($event.target.checked, '1')"
+              />
+              <label class="custom-control-label" for="beforemeal"
+                >{{'insulin.beforemeal' | translate}}</label
+              >
+            </div>
+            <div class="custom-control custom-checkbox">
+              <input
+                type="checkbox"
+                class="activitycustom after-meal custom-control-input"
+                id="aftermeal"
+                [checked]="true"
+                (click)="DosageTypeChange($event.target.checked, '2')"
+              />
+              <label class="custom-control-label" for="aftermeal"
+                >{{'insulin.afteremeal' | translate}}</label
+              >
+            </div>
+            <div class="custom-control custom-checkbox">
+              <input
+                type="checkbox"
+                class="carbscustom othertime custom-control-input"
+                id="other1"
+                [checked]="true"
+                (click)="DosageTypeChange($event.target.checked, '3')"
+              />
+              <label class="custom-control-label" for="other1">{{'insulin.othertime' | translate}}</label>
+                </div>
+            </div>
+
+            <div class="chart-wrap" [hidden]="!showInsulin">
+                <div class="chart-wrapper" id="chart-distro1" #dataContainer></div>
+                <div id="brush-slider"></div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+
+    <!-- <div class="slider-wrap">
+      <ng5-slider
+        [(value)]="value"
+        [(highValue)]="maxValue"
+        [options]="options"
+        (userChange)="onUserChange($event)"
+      ></ng5-slider>
+    </div> -->
+  </div>
+</div>

@@ -1,0 +1,99 @@
+<!-- Sign up form -->
+<section class="">
+    <div class="container-fluid">
+        <div class="row shadow-none bg-white rounded formBodyOuter">
+            <div class="form-body-inside">
+                <div class="signup-content text-center">
+                    <div class=" w-100">
+                        <h2 class="form-title">{{ 'carbs.carbsamount' | translate }}</h2>
+                        <form class="register-form" id="register-form" (ngSubmit)="onSubmit()" [formGroup]="carbsForm" [mustMatch]="['pass', 'repass']" novalidate>
+
+                            <div class="form-group row">
+                                <div class="col-md-12">
+                                    <select [ngClass]="{'selectColor': carbsFormCtrl.carbsType.value ==''}" class="form-control" name="carbsType" id="carbsType" placeholder="Carbs Type" formControlName="carbsType" name="car">
+                      <option value="" selected="true" class="please-select">{{ 'carbs.pleaseselect' | translate }}</option>
+                      <option value="1">
+                        {{ 'carbs.carbohydrates' | translate }}
+                      </option>
+                      <option value="2">
+                        {{ 'carbs.proteins' | translate }}
+                      </option>
+                      <option value="3">
+                        {{ 'carbs.fibers' | translate }}
+                      </option>
+                    </select>
+                                </div>
+                                <div *ngIf="isSubmitted && carbsFormCtrl.carbsType.invalid" class="invalid-feedback">
+                                    <div *ngIf="carbsFormCtrl.carbsType.errors.required">
+                                        Required field
+                                    </div>
+                                </div>
+
+                            </div>
+
+
+                            <div class="form-group row">
+                                <div class="col-4 mt-3">
+                                    <label for="time"><i class="zmdi zmdi-time"></i> {{ 'carbs.timeofmeal' | translate }}</label>
+                                </div>
+                                <div class="col-8">
+                                    <ngb-timepicker formControlName="carbsTime" name="carbsTime"></ngb-timepicker>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-md-12 mt-3">
+                                    <div class="row">
+                                        <label for="food_carbs"><i class="zmdi zmdi-assignment"></i></label>
+                                        <input formControlName="carbsItem" type="text" name="carbsItem" id="carbsItem" placeholder="{{ 'carbs.typeoffood' | translate }}" />
+                                    </div>
+                                </div>
+                                <div *ngIf="isSubmitted && carbsFormCtrl.carbsItem.invalid" class="invalid-feedback">
+                                    <div *ngIf="carbsFormCtrl.carbsItem.errors.required">
+                                        Required field
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="form-group form-button">
+                                <input type="submit" name="submit" id="submit" class="btn btn-form btn-block" value="{{ 'carbs.submit' | translate }}" *ngIf="!formProcess" />
+                                <span class="btn btn-block" *ngIf="formProcess">Please wait...</span>
+                            </div>
+                            <div class="form-group form-button">
+                                <input type="button" class="btn btn-form btn-block" value="{{ 'carbs.generatechart' | translate }}" *ngIf="!formProcess" data-toggle="modal" data-target="#exampleModalScrollable3" (click)="openModal()" />
+                                <span class="btn btn-block" *ngIf="formProcess">Please wait...</span>
+                            </div>
+                            <div class="form-group error {{errMsg.class}}">
+                                <span>{{errMsg.msg}}</span>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="col-2">
+
+                    <div class="modal fade" id="exampleModalScrollable3" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-lg" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <p class="modal-title" id="exampleModalScrollableTitle">{{(isLanguageEnglish)? 'Carbs Chart': 'Kolhydrater Diagram'}}</p>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+                                </div>
+                                <div class="modal-body" id="modal-body3">
+                                    <div class="container">
+                                        <app-carbsmodel *ngIf="displaymodel"></app-carbsmodel>
+                                        <div class="row justify-content-center my-5" *ngIf="!displaymodel">
+                                            <i class="fas fa-spinner fa-2x fa-spin" style="color: brown;"></i>
+                                          </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
